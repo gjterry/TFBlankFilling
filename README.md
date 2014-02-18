@@ -11,4 +11,3 @@ This small widget supports the function just as follow:
 
 TODO
 
-step1 Do general check on submit button tapped
