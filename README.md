@@ -3,7 +3,7 @@ TFBlankFilling
 
 Fill in the blanks 
 
-This small widget supports the function just as below:
+This small widget supports the function just as follow:
 
 * Change the number of blanks
 * Change the gap between two blanks
