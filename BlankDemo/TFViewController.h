@@ -14,4 +14,5 @@
 
 @property (nonatomic, strong) IBOutlet TFBlankFillingView *container;
 
+- (IBAction)onSubmitButtonTapped:(id)sender;
 @end

@@ -11,6 +11,11 @@
 
 #import "TFViewController.h"
 
+#pragma mark //strOrEmpty
+NSString* strOrEmpty(NSString* str) {
+	return (str==nil||[str isKindOfClass:[NSNull class]]?@"":str);
+}
+
 @interface TFViewController () <TFBlankFillingViewDelegate, TFBlankFillingViewDataSource
 ,UITextFieldDelegate> {
     float currentTextFiledPositionY;
@@ -104,5 +109,15 @@
     return YES;
 }
 
+- (IBAction)onSubmitButtonTapped:(id)sender {
+    NSMutableString *inputString = [[NSMutableString alloc]init];
+    for (int i = 0; i < 7; i ++) {
+        TFCustomBlankInputView *customBlankInputView = (TFCustomBlankInputView *)[self.container blankInputViewAtIndex:i];
+        [inputString appendString:[NSString stringWithFormat:@" %@ ",strOrEmpty(customBlankInputView.inputField.text)]];
+    }
+    NSLog(@"%@",inputString);
+//    UIAlertView *alert = [UIAlertView alloc]initWithTitle:@"提示" message:inputString delegate:nil cancelButtonTitle:@"知道了",nil];
+//    [alert show];
+}
 
 @end
