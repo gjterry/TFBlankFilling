@@ -131,5 +131,9 @@
     }
 }
 
+- (TFBlankInputView *)blankInputViewAtIndex:(NSInteger)index {
+    return [_itemViews objectForKey:[NSNumber numberWithInteger:index]];
+}
+
 
 @end

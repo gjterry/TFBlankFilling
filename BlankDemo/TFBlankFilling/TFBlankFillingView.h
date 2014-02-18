@@ -26,6 +26,8 @@
 
 @property (nonatomic, assign) NSInteger numberOfItems;
 
+- (TFBlankInputView *)blankInputViewAtIndex:(NSInteger)index;
+
 @end
 
 
