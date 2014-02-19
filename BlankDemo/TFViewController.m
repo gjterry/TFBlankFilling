@@ -19,7 +19,7 @@ NSString* strOrEmpty(NSString* str) {
 @interface TFViewController () <TFBlankFillingViewDelegate, TFBlankFillingViewDataSource
 ,UITextFieldDelegate> {
     float currentTextFiledPositionY;
-    CGSize originContentSize;
+    CGRect originScrollViewFrame;
 }
 @end
 
@@ -44,25 +44,29 @@ NSString* strOrEmpty(NSString* str) {
     float keyboardHeight = keyboardSize.height;
     float heightWithoutKeyboard = self.view.bounds.size.height - keyboardHeight;
     float gap = heightWithoutKeyboard - currentTextFiledPositionY - 49- 20;
+    originScrollViewFrame = self.container.contentScrollView.frame;
+    float zoomHeight = heightWithoutKeyboard - originScrollViewFrame.origin.y - 20;
+    if (gap > 0) {
+        self.container.contentScrollView.frame = CGRectMake(originScrollViewFrame.origin.x, originScrollViewFrame.origin.y, originScrollViewFrame.size.width,zoomHeight);
+    }
+    
     if (gap < 0) {
+        self.container.contentScrollView.frame = CGRectMake(originScrollViewFrame.origin.x, originScrollViewFrame.origin.y, originScrollViewFrame.size.width, zoomHeight);
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:.3];
         self.container.contentScrollView.contentOffset = CGPointMake(self.container.contentScrollView.contentOffset.x, self.container.contentScrollView.contentOffset.y - gap);
-        float offsetY = self.container.contentScrollView.contentOffset.y;
-        originContentSize = self.container.contentScrollView.contentSize;
-        self.container.contentScrollView.contentSize = CGSizeMake(self.container.contentScrollView.bounds.size.width, self.container.contentScrollView.contentSize.height + offsetY);
         [UIView commitAnimations];
     }
 }
 
 - (void)keyboardWasHidden:(NSNotification *)notification {
-    if (originContentSize.height > 0) {
+    if (originScrollViewFrame.size.height > 0) {
+        self.container.contentScrollView.frame = originScrollViewFrame;
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:.3];
         self.container.contentScrollView.contentOffset =CGPointMake(0, 0);
-        self.container.contentScrollView.contentSize = originContentSize;
         [UIView commitAnimations];
-        originContentSize = CGSizeMake(0, 0);
+        originScrollViewFrame = CGRectMake(0, 0, 0, 0);
     }
 }
 
