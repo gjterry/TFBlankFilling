@@ -10,7 +10,9 @@
 
 #import "TFBlankFillingView.h"
 
-@interface TFBlankFillingView ()
+@interface TFBlankFillingView () {
+    BOOL emptyContentsInItemView;
+}
 
 @property (nonatomic, strong) NSMutableDictionary *itemViews;
 
@@ -86,6 +88,7 @@
     if (_itemView) {
         for (UIView *v in _itemView.subviews)
             [v removeFromSuperview];
+        emptyContentsInItemView = YES;
     }
     _numberOfItems = [_dataSource numberOfBlankInputViewInBlankContainer];
     _itemViews = [[NSMutableDictionary alloc]initWithCapacity:_numberOfItems];
@@ -99,7 +102,8 @@
 }
 
 - (void)layoutItemViews {
-    if (_numberOfItems > 0) {
+    NSLog(@"layoutItemViews");
+    if (_numberOfItems > 0 && emptyContentsInItemView ) {
         for (NSInteger i = 0; i < _numberOfItems; i ++) {
             TFBlankInputView *blankInputView = [_dataSource TFBlankFillingView:self blankInputViewAtIndex:i];
             float inputViewHeight = [_delegate inputViewHeightAtIndex:i];
@@ -126,6 +130,7 @@
             }
             self.contentScrollView.contentSize = _itemView.frame.size;
         }
+        emptyContentsInItemView = NO;
         [self.contentScrollView addSubview:_itemView];
         [self addSubview:_contentScrollView];
     }
